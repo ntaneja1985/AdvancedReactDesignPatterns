@@ -4,8 +4,8 @@ export const DataSource = ({ getData = () => {}, resourceName, children }) => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        (async () => {
-            const result = await getData();
+        ( () => {
+            const result =  getData();
             setData(result);
         })();
     }, [getData]);

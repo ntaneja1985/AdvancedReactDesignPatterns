@@ -5,6 +5,7 @@ import {ResourceLoader} from "./components/resource-loader";
 import {BookInfo} from "./components/book-info";
 import {DataSource} from "./components/DataSource";
 import axios from "axios";
+import {DatasourceWithRender} from "./components/datasource-with-render";
 
 function App() {
     // Separate data fetching logic
@@ -13,7 +14,23 @@ function App() {
         return response.data;
     };
 
+    const getDataFromLocalStorage = (key) => {
+        console.log(key)
+
+        return localStorage.getItem(key);
+    };
+
+    const Message = ({ msg }) => {
+        console.log(msg)
+
+        return <h2>{msg}</h2>;
+    };
+
+
+
+    const getData = async () => await getDataFromServer('/users/2')
   return (
+
     <>
         {/*/!* User data *!/*/}
         {/*<ResourceLoader resourceUrl="/users/2" resourceName="user">*/}
@@ -26,11 +43,17 @@ function App() {
         {/*</ResourceLoader>*/}
 
         <DataSource
-            getData={async () => await getDataFromServer('/users/2')}
-            resourceName="user"
+            getData={ () =>  getDataFromLocalStorage('test')}
+            resourceName="msg"
         >
-            <UserInfo />
+            <Message />
         </DataSource>
+        <DatasourceWithRender
+            getData={getData}
+            render={(resource) => (
+                <UserInfo user={resource} />
+            )}
+        />
     </>
   );
 }
